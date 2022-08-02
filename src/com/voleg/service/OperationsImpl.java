@@ -1,6 +1,7 @@
 package com.voleg.service;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,41 +12,41 @@ public class OperationsImpl {
     private File historyFile;
 
     private String outputResult;
-    private final List<Long> digitsList = new ArrayList<>();
+    private final List<BigInteger> digitsList = new ArrayList<>();
 
-    private long x;
-    private long y;
+    private BigInteger x;
+    private BigInteger y;
     private double power;
 
     public String countSum() {
-        setAndSaveResult(x + " + " + y + " = " + (x + y));
+        setAndSaveResult(x + " + " + y + " = " + (x.add(y)));
 
         return outputResult;
     }
 
     public String countSub() {
-        setAndSaveResult(x + " - " + y + " = " + (x - y));
+        setAndSaveResult(x + " - " + y + " = " + (x.subtract(y)));
 
         return outputResult;
     }
 
     public String countMult() {
-        setAndSaveResult(x + " * " + y + " = " + (x * y));
+        setAndSaveResult(x + " * " + y + " = " + (x.multiply(y)));
 
         return outputResult;
     }
 
     public String countDiv() {
-        setAndSaveResult(x + " / " + y + " = " + (x / y));
+        setAndSaveResult(x + " / " + y + " = " + (x.divide(y)));
 
         return outputResult;
     }
 
     public String countPow() {
         setAndSaveResult("Число " + x + " в степени " + power +
-                " равно: " + Math.pow(x, power) + "\n" +
+                " равно: " + Math.pow(x.longValue(), power) + "\n" +
                 "Число " + y + " в степени " + power +
-                " равно: " + Math.pow(y, power));
+                " равно: " + Math.pow(y.longValue(), power));
 
         return outputResult;
     }
@@ -53,15 +54,15 @@ public class OperationsImpl {
     public String compare() {
         String ans = "";
 
-        if (x == y) {
+        if (x.compareTo(y) == 0) {
             ans = x + " = " + y;
         }
 
-        if (x < y) {
+        if (x.compareTo(y) < 0) {
             ans = x + " < " + y;
         }
 
-        if (x > y) {
+        if (x.compareTo(y) > 0) {
             ans = x + " > " + y;
         }
 
@@ -70,7 +71,7 @@ public class OperationsImpl {
         return outputResult;
     }
 
-    public String save(long digitToSave) {
+    public String save(BigInteger digitToSave) {
         digitsList.add(digitToSave);
 
         setAndSaveResult(digitsList.toString());
@@ -98,13 +99,13 @@ public class OperationsImpl {
         return outputResult;
     }
 
-    public static long getFibNumberByIndex(long index) {
-        long first = 0;
-        long second = 1;
-        long number = index;
+    public static BigInteger getFibNumberByIndex(int index) {
+        BigInteger first = BigInteger.ZERO;
+        BigInteger second = BigInteger.ONE;
+        BigInteger number = BigInteger.valueOf(index);
 
         for (int i = 1; i < index; i++) {
-            number = first + second;
+            number = first.add(second);
             first = second;
             second = number;
         }
@@ -112,7 +113,7 @@ public class OperationsImpl {
         return number;
     }
 
-    private  void setAndSaveResult(String result) {
+    private void setAndSaveResult(String result) {
         outputResult = result;
 
         if (isToSave) {
@@ -128,19 +129,19 @@ public class OperationsImpl {
         historyFile = filePath;
     }
 
-    public long getX() {
+    public BigInteger getX() {
         return x;
     }
 
-    public long getY() {
+    public BigInteger getY() {
         return y;
     }
 
-    public void setX(long x) {
+    public void setX(BigInteger x) {
         this.x = x;
     }
 
-    public void setY(long y) {
+    public void setY(BigInteger y) {
         this.y = y;
     }
 
